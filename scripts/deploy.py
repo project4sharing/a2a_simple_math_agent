@@ -41,7 +41,7 @@ def main():
             "display_name": agent_card.name,
             "description": agent_card.description,
             "requirements": [
-                "google-cloud-aiplatform[agent_engines,adk]>=1.91.0",
+                "google-cloud-aiplatform[agent_engines,adk]>=1.147.0",
                 "a2a-sdk==0.3.26",
                 "google-adk>=2.4.0",
                 "cloudpickle",

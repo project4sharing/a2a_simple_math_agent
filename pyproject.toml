@@ -1,15 +1,11 @@
 [project]
 name = "a2a-simple-math-agent"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.1.1"
+description = "Simple math agent (addition and subtraction) agent to demonstrate A2A concept"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
-    "a2a-sdk==0.3.26",
+    "a2a-sdk[http-server]==0.3.26",
     "google-adk>=2.4.0",
-    "google-cloud-aiplatform[adk,agent-engines]>=1.91.0",
-    "vertexai>=1.43.0",
+    "google-cloud-aiplatform[adk,agent-engines]>=1.147.0"
 ]
-
-# 
-# "google-adk==1.29.0",

@@ -2,12 +2,17 @@ from google.adk.agents import LlmAgent
 # from google.adk.models.lite_llm import LiteLlm
 from google.genai import types
 from google.adk.planners import BuiltInPlanner
+from google.adk.tools import ToolContext
 
+from dotenv import load_dotenv
 import logging
 import os
+from typing import List, Dict, Any
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+load_dotenv()  # Load environment variables from .env file
 
 engine_id = os.environ.get("GOOGLE_CLOUD_AGENT_ENGINE_ID", "NULL_ENGINE_ID")
 logger.info("#####  Using Google Cloud Agent Engine ID: %s", engine_id)
@@ -23,19 +28,20 @@ logger.info("#####  Using Google Cloud Location: %s", LOCATION)
 logger.info("#####  Using Model Armor Template: %s", MODEL_ARMOR_TEMPLATE)
 logger.info("#####  Full Model Armor Template: %s", FULL_MODEL_ARMOR_TEMPLATE_NAME)
 
-def add(a: int, b: int) -> int:
+def add(a: int, b: int, tool_context: ToolContext=None) -> int:
     """Add two integers.
 
     Args:
         a: The first integer.
         b: The second integer.
+        tool_context: The tool context.
 
     Returns:
         The sum of the two integers.
     """
     return a + b
 
-def subtract(a: int, b: int) -> int:
+def subtract(a: int, b: int, tool_context: ToolContext=None) -> int:
     """Subtract two integers.
 
     Args:
