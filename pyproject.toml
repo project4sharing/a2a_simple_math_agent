@@ -10,3 +10,6 @@ dependencies = [
     "google-cloud-aiplatform[adk,agent-engines]>=1.91.0",
     "vertexai>=1.43.0",
 ]
+
+# 
+# "google-adk==1.29.0",

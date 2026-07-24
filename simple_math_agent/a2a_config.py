@@ -3,7 +3,7 @@ from vertexai.preview.reasoning_engines.templates.a2a import create_agent_card
 
 simple_math_skill = AgentSkill(
     id="add_subtract_integers",
-    name="Simple Math",
+    name="Simple Math Agent",
     description="Perform addition and subtraction of two integers",
     tags=["math", "arithmetic"],
     examples=[
