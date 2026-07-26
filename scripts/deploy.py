@@ -2,14 +2,21 @@ import os
 from pathlib import Path
 
 import vertexai
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 from google.genai import types
 from vertexai.preview.reasoning_engines import A2aAgent
 
 from simple_math_agent.a2a_config import agent_card
 from simple_math_agent.executor import SimpleMathAgentExecutor
 
-load_dotenv()
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+env_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
+
 
 ENGINE_ID = os.environ.get("GOOGLE_CLOUD_AGENT_ENGINE_ID", "NULL_ENGINE_ID")
 PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT_ID", "NULL_PROJECT_ID")
@@ -17,6 +24,8 @@ REGION = os.environ.get("GOOGLE_CLOUD_LOCATION", "NULL_LOCATION")
 
 DEPLOYMENT_BUCKET = os.environ.get("DEPLOYMENT_GCS", "NULL_DEPLOYMENT_BUCKET")
 BUCKET_URI = f"gs://{DEPLOYMENT_BUCKET}"
+
+logger.info("11111  Using Google Cloud Project ID: %s", PROJECT_ID)
 
 a2a_agent = A2aAgent(
     agent_card=agent_card,

@@ -4,15 +4,17 @@ from google.genai import types
 from google.adk.planners import BuiltInPlanner
 from google.adk.tools import ToolContext
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 import logging
 import os
+from pathlib import Path
 from typing import List, Dict, Any
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-load_dotenv()  # Load environment variables from .env file
+env_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_path=env_path, verbose=True)
 
 engine_id = os.environ.get("GOOGLE_CLOUD_AGENT_ENGINE_ID", "NULL_ENGINE_ID")
 logger.info("#####  Using Google Cloud Agent Engine ID: %s", engine_id)
@@ -23,6 +25,7 @@ MODEL_ARMOR_TEMPLATE = os.environ.get("MODEL_ARMOR_TEMPLATE", "NULL_MODEL_ARMOR_
 
 FULL_MODEL_ARMOR_TEMPLATE_NAME = f"projects/{PROJECT_ID}/locations/{LOCATION}/templates/{MODEL_ARMOR_TEMPLATE}"
 
+logger.info(f"#####  {env_path}")
 logger.info("#####  Using Google Cloud Project ID: %s", PROJECT_ID)
 logger.info("#####  Using Google Cloud Location: %s", LOCATION)
 logger.info("#####  Using Model Armor Template: %s", MODEL_ARMOR_TEMPLATE)

@@ -1,6 +1,7 @@
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 import logging
 import os
+from pathlib import Path
 from typing import NoReturn
 
 import vertexai
@@ -21,10 +22,14 @@ from .agent import root_agent as simple_math_agent
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-load_dotenv()  # Load environment variables from .env file
+env_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
+
 ENGINE_ID = os.environ.get("GOOGLE_CLOUD_AGENT_ENGINE_ID", "NULL_ENGINE_ID")
 PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT_ID", "NULL_PROJECT_ID")
 REGION = os.environ.get("GOOGLE_CLOUD_LOCATION", "NULL_LOCATION")
+print(f"22222 {Path(__file__).resolve().parent}")
+logger.info("22222  Using Google Cloud Project ID: %s", PROJECT_ID)
 
 
 class SimpleMathAgentExecutor(AgentExecutor):
