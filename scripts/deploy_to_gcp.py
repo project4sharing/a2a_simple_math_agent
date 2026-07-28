@@ -2,14 +2,15 @@ import os
 from pathlib import Path
 
 import vertexai
-from dotenv import load_dotenv, find_dotenv
-from google.genai import types
-from vertexai.preview.reasoning_engines import A2aAgent
+from dotenv import load_dotenv
 
-from simple_math_agent.a2a_config import agent_card
-from simple_math_agent.executor import SimpleMathAgentExecutor
+from simple_math_agent2.a2a_config import agent_card
+from simple_math_agent2.executor import SimpleMathAgentExecutor
 
 import logging
+
+from google.genai import types
+from vertexai.agent_engines.templates.a2a import A2aAgent
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -27,10 +28,15 @@ BUCKET_URI = f"gs://{DEPLOYMENT_BUCKET}"
 
 logger.info("11111  Using Google Cloud Project ID: %s", PROJECT_ID)
 
-a2a_agent = A2aAgent(
-    agent_card=agent_card,
-    agent_executor_builder=SimpleMathAgentExecutor,
-)
+# 1. Instantiate our custom wrapper
+a2a_agent = SimpleMathAgentExecutor()
+a2a_agent._init_agent()
+
+# 2. Deploy it
+# remote_agent = reasoning_engines.ReasoningEngine.create(
+#     a2a_agent,
+#     ...
+# )
 
 
 def main():
@@ -38,11 +44,16 @@ def main():
     client = vertexai.Client(
         project=PROJECT_ID,
         location=REGION,
-        http_options=types.HttpOptions(api_version="v1beta1"),
+        http_options=types.HttpOptions(api_version="v1beta1", base_url=f"https://{REGION}-aiplatform.googleapis.com")
     )
 
     print("Deploying Simple Math Agent to Agent Runtime...")
     print("This may take 3-5 minutes.")
+
+    a2a_agent = A2aAgent(
+        agent_card=agent_card,
+        agent_executor_builder=lambda: SimpleMathAgentExecutor(),
+    )
 
     remote_agent = client.agent_engines.create(
         agent=a2a_agent,
@@ -50,19 +61,23 @@ def main():
             "display_name": agent_card.name,
             "description": agent_card.description,
             "requirements": [
-                "google-cloud-aiplatform[agent_engines,adk]>=1.147.0",
-                "a2a-sdk[http-server]==0.3.26",
-                "google-adk>=2.4.0",
-                "cloudpickle",
-                "pydantic"
+                "a2a-sdk>=1.0.0",
+                "google-cloud-aiplatform[agent_engines,adk]>=1.156.0",
+                "sse_starlette"
             ],
             "extra_packages": [
-                "./simple_math_agent",
+                "./simple_math_agent2",
             ],
             "http_options": {
+                "base_url": f"https://us-central1-aiplatform.googleapis.com",
                 "api_version": "v1beta1",
             },
             "staging_bucket": BUCKET_URI,
+            "env_vars": {
+                "GOOGLE_CLOUD_PROJECT_ID": PROJECT_ID,
+                "GOOGLE_CLOUD_LOCATION": REGION,
+                "MODEL_ARMOR_TEMPLATE": "tpl-test"
+            }
         },
     )
 
