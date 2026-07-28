@@ -4,8 +4,8 @@ from pathlib import Path
 import vertexai
 from dotenv import load_dotenv
 
-from simple_math_agent2.a2a_config import agent_card
-from simple_math_agent2.executor import SimpleMathAgentExecutor
+from simple_math_agent.a2a_config import agent_card
+from simple_math_agent.executor import SimpleMathAgentExecutor
 
 import logging
 
@@ -26,17 +26,10 @@ REGION = os.environ.get("GOOGLE_CLOUD_LOCATION", "NULL_LOCATION")
 DEPLOYMENT_BUCKET = os.environ.get("DEPLOYMENT_GCS", "NULL_DEPLOYMENT_BUCKET")
 BUCKET_URI = f"gs://{DEPLOYMENT_BUCKET}"
 
-logger.info("11111  Using Google Cloud Project ID: %s", PROJECT_ID)
 
 # 1. Instantiate our custom wrapper
 a2a_agent = SimpleMathAgentExecutor()
 a2a_agent._init_agent()
-
-# 2. Deploy it
-# remote_agent = reasoning_engines.ReasoningEngine.create(
-#     a2a_agent,
-#     ...
-# )
 
 
 def main():
@@ -66,7 +59,7 @@ def main():
                 "sse_starlette"
             ],
             "extra_packages": [
-                "./simple_math_agent2",
+                "./simple_math_agent",
             ],
             "http_options": {
                 "base_url": f"https://us-central1-aiplatform.googleapis.com",
