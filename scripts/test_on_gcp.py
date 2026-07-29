@@ -29,6 +29,13 @@ AGENT_NAME = os.environ.get("SIMPLE_MATH_AGENT_RESOURCE_NAME", "NULL_SIMPLE_MATH
 
 async def main():
 
+    logger.info(f"#####  {env_path}")
+    logger.info("#####  Using Google Cloud Project ID: %s", PROJECT_ID)
+    logger.info("#####  Using Google Cloud Location: %s", LOCATION)
+    logger.info("#####  Using Model Armor Template: %s", MODEL_ARMOR_TEMPLATE)
+    logger.info("#####  Full Model Armor Template: %s", FULL_MODEL_ARMOR_TEMPLATE_NAME)
+    logger.info("#####  Agent Name: %s", AGENT_NAME)
+
     client = vertexai.Client(
         project=PROJECT_ID,
         location=LOCATION,
