@@ -35,7 +35,7 @@ simple_math_skill = a2a_types.AgentSkill(
 # Use the helper function to create a complete Agent Card
 agent_card = create_agent_card(
 
-    agent_name="Simple A2A Math Agent v1.0.2",
+    agent_name="Simple A2A Math Agent v1.0.3",
     description="An agent that can perform addition and subtraction of two integers.",
     skills=[simple_math_skill]
 )

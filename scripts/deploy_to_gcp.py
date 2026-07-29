@@ -34,11 +34,11 @@ a2a_agent._init_agent()
 
 
 def main():
-    vertexai.init(project=PROJECT_ID, location=REGION, staging_bucket=BUCKET_URI)
+    vertexai.init(project=PROJECT_ID, location=LOCATION, staging_bucket=BUCKET_URI)
     client = vertexai.Client(
         project=PROJECT_ID,
-        location=REGION,
-        http_options=types.HttpOptions(api_version="v1beta1", base_url=f"https://{REGION}-aiplatform.googleapis.com")
+        location=LOCATION,
+        http_options=types.HttpOptions(api_version="v1beta1", base_url=f"https://{LOCATION}-aiplatform.googleapis.com")
     )
 
     print("Deploying Simple Math Agent to Agent Runtime...")
@@ -69,8 +69,8 @@ def main():
             "staging_bucket": BUCKET_URI,
             "env_vars": {
                 "GOOGLE_CLOUD_PROJECT_ID": PROJECT_ID,
-                "GOOGLE_CLOUD_LOCATION": REGION,
-                "MODEL_ARMOR_TEMPLATE": "tpl-test"
+                "GOOGLE_CLOUD_LOCATION": LOCATION,
+                "MODEL_ARMOR_TEMPLATE": MODEL_ARMOR_TEMPLATE
             }
         },
     )
