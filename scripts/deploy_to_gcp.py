@@ -63,10 +63,10 @@ def main():
                 "./simple_math_agent",
             ],
             "http_options": {
-                "base_url": f"https://us-central1-aiplatform.googleapis.com",
+                "base_url": f"https://{LOCATION}-aiplatform.googleapis.com",
                 "api_version": "v1beta1",
             },
-            "staging_bucket": BUCKET_URI,
+            "staging_bucket": f"gs://{BUCKET_URI}",
             "env_vars": {
                 "GOOGLE_CLOUD_PROJECT_ID": PROJECT_ID,
                 "GOOGLE_CLOUD_LOCATION": LOCATION,
